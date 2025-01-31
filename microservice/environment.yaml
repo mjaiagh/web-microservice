@@ -1,0 +1,12 @@
+#conda env create -f environment.yaml
+#conda activate homework_4_1
+
+name: web_homework_microservice
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.12.2
+  - pip
+  - fastapi
+  - peewee
