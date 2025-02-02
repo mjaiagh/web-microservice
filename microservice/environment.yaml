@@ -1,5 +1,5 @@
 #conda env create -f environment.yaml
-#conda activate homework_4_1
+#conda activate web_homework_microservice
 
 name: web_homework_microservice
 channels:
