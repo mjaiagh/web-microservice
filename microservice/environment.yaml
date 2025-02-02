@@ -7,6 +7,6 @@ channels:
   - conda-forge
 dependencies:
   - python=3.12.2
-  - pip
-  - fastapi
   - peewee
+  - pip:
+    - fastapi[standard]
