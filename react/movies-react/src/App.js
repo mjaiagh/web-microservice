@@ -11,6 +11,7 @@ const buttonGroupStyle = {
     gap: '10px',
 };
 
+
 export default function App() {
     const [movies, setMovies] = useState([]);
     const [actors, setActors] = useState([]);
