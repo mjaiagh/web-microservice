@@ -47,13 +47,17 @@ async def actors() -> List[ActorSchema]:
     actors: Actor = movies_db.get_actors()
     return [ActorSchema.from_orm(actor) for actor in actors]
 
-
-@app.get("/movies")
-async def movies() -> List[MovieSchema]:
-    movies: Movie = movies_db.get_movies()
-    return [MovieSchema.from_orm(movie) for movie in movies]
-
-
+@app.delete("/actors/{actor_id}")
+async def delete_actor(actor_id: int):
+    try:
+        actor: Actor = Actor.get(actor_id)
+        print(f"Got actor {actor}")
+        actor.delete_instance()
+        movies_db.commit()
+        return "Deleted"
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Actor cannot be deleted")
+    
 @app.post("/actors")
 async def add_actor(actor: ActorSchema):
     try:
@@ -71,6 +75,15 @@ async def get_actor(actor_id: int):
         return ActorSchema.from_orm(actor)
     except Exception as e:
         raise HTTPException(status_code=404, detail="Actor not found")
+    
+
+
+
+@app.get("/movies")
+async def movies() -> List[MovieSchema]:
+    movies: Movie = movies_db.get_movies()
+    return [MovieSchema.from_orm(movie) for movie in movies]
+
 
 
 @app.get("/movies/{movie_id}")
@@ -82,16 +95,14 @@ async def get_movie(movie_id: int):
         raise HTTPException(status_code=404, detail="Movie not found")
 
 
-@app.delete("/actors/{actor_id}")
-async def delete_actor(actor_id: int):
+@app.post("/movies")
+async def add_movie(movie: MovieSchema):
     try:
-        actor: Actor = Actor.get(actor_id)
-        print(f"Got actor {actor}")
-        actor.delete_instance()
+        new_movie: MovieSchema = MovieSchema.create(title=movie.title, year=movie.year)
         movies_db.commit()
-        return "Deleted"
+        return MovieSchema.from_orm(new_movie)
     except Exception as e:
-        raise HTTPException(status_code=500, detail="Actor cannot be deleted")
+        return {"Error while adding movie": str(e)}
 
 
 @app.delete("/movies/{movie_id}")
