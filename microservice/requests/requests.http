@@ -8,6 +8,11 @@ GET http://127.0.0.1:8000/movies
 
 
 ###
+GET http://127.0.0.1:8000/movies/1/actors
+
+
+
+###
 POST http://127.0.0.1:8000/actors
 Host: localhost:8000
 Content-Type: application/json
@@ -27,4 +32,23 @@ GET http://127.0.0.1:8000/actors/1
 
 
 ###
-DELETE http://127.0.0.1:8000/actors/31
+DELETE http://127.0.0.1:8000/actors/4
+
+
+###
+POST http://127.0.0.1:8000/movies/actors
+Host: localhost:8000
+Content-Type: application/json
+
+{"title":"asdaa","year":2345}
+
+
+### Actors to move
+POST http://127.0.0.1:8000/movies/actors
+Host: localhost:8000
+Content-Type: application/json
+
+{
+  "movie_id": 1,
+  "actor_ids": [60]
+}
