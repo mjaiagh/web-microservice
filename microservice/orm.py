@@ -15,6 +15,7 @@ class Actor(BaseMovie):
     name: CharField = CharField()
     surname: CharField = CharField()
 
+
     class Meta:  # type: ignore
         table_name = 'actor'
 
