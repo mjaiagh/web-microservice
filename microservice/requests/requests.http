@@ -1,15 +1,30 @@
 GET http://127.0.0.1:8000/hello
 ###
 GET http://127.0.0.1:8000/actors
+
+
 ###
 GET http://127.0.0.1:8000/movies
+
+
 ###
 POST http://127.0.0.1:8000/actors
 Host: localhost:8000
 Content-Type: application/json
 
-{"name":"asda","surname":"asdasd"}
+{"name":"asdaa","surname":"asdaasd"}
+
+
 ###
-GET http://127.0.0.1:8000/actors/12
+POST http://127.0.0.1:8000/movies
+Host: localhost:8000
+Content-Type: application/json
+
+{"title":"asdaa","year":2345}
+
+###
+GET http://127.0.0.1:8000/actors/1
+
+
 ###
 DELETE http://127.0.0.1:8000/actors/31

@@ -11,17 +11,14 @@ from fastapi.middleware.cors import CORSMiddleware
 
 
 class ActorSchema(BaseModel):
-    id: Optional[int] = None
     name: str
     surname: str
     model_config = ConfigDict(from_attributes=True)
 
 
 class MovieSchema(BaseModel):
-    id: int
     title: str
     year: int
-    actors: list[ActorSchema] = []
     model_config = ConfigDict(from_attributes=True)
 
 
@@ -94,15 +91,16 @@ async def get_movie(movie_id: int):
     except Exception:
         raise HTTPException(status_code=404, detail="Movie not found")
 
-
+    
 @app.post("/movies")
-async def add_movie(movie: MovieSchema):
+async def create_movie(movie: MovieSchema):
+    print(f"{movie}")
     try:
-        new_movie: MovieSchema = MovieSchema.create(title=movie.title, year=movie.year)
+        new_movie = Movie.create(title=movie.title, year=movie.year)
         movies_db.commit()
         return MovieSchema.from_orm(new_movie)
     except Exception as e:
-        return {"Error while adding movie": str(e)}
+        raise HTTPException(status_code=500, detail=f"Error while adding movie: {str(e)}")
 
 
 @app.delete("/movies/{movie_id}")
