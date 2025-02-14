@@ -73,6 +73,15 @@ async def get_actor(actor_id: int):
         raise HTTPException(status_code=404, detail="Actor not found")
 
 
+@app.get("/movies/{movie_id}")
+async def get_movie(movie_id: int):
+    try:
+        movie = Movie.get(movie_id)
+        return MovieSchema.model_validate(movie)
+    except Exception:
+        raise HTTPException(status_code=404, detail="Movie not found")
+
+
 @app.delete("/actors/{actor_id}")
 async def delete_actor(actor_id: int):
     try:
@@ -82,4 +91,15 @@ async def delete_actor(actor_id: int):
         movies_db.commit()
         return "Deleted"
     except Exception as e:
+        raise HTTPException(status_code=500, detail="Actor cannot be deleted")
+
+
+@app.delete("/movies/{movie_id}")
+async def delete_movie(movie_id: int):
+    try:
+        movie = Movie.get(movie_id)
+        movie.delete_instance()
+        movies_db.commit()
+        return "Deleted"
+    except Exception:
         raise HTTPException(status_code=500, detail="Actor cannot be deleted")
